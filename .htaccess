@@ -1,0 +1,22 @@
+# Deny access to the htaccess file
+<FILES .htaccess>
+order allow,deny 
+deny from all
+</FILES>
+
+# Prevent these script from executing anything
+Options -ExecCGI
+AddHandler cgi-script .pl .py .jsp .shtml .sh .asp .cgi
+
+# Make it so sessions are available on all sub-domains
+#php_value session.cookie_domain .prelicensetraining.com
+
+# Prevent directory browsing
+Options -Indexes
+
+RewriteEngine on 
+RewriteCond $1 !^(index\.php|assets|images|js|css|libs|uploads|icons|favicon.png|fonts)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ ./index.php/$1 [L]
+
